@@ -25,6 +25,9 @@ hs_err_pid*
 target
 work
 
+# Hugo rendered html site
+test/test-app/public/*
+
 # Vim junk files
 .*.swp
 *~

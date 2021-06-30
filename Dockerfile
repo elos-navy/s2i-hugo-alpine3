@@ -1,38 +1,32 @@
-# hugo-alpine3
-FROM openshift/base-centos7
+#  Dockerfile for hugo-alpine3 s2i builder
+FROM alpine:3.14
 
-# TODO: Put the maintainer name in the image metadata
-# LABEL maintainer="Your Name <your@email.com>"
+# Labels and OCP s2i specific annotations
+LABEL io.k8s.description="Hugo static site generator s2i builder image." \
+      io.k8s.display-name="Hugo v0.84.3" \
+      io.openshift.s2i.scripts-url="image:///usr/local/s2i" \
+      io.openshift.expose-services="1313:http" \
+      io.openshift.tags="builder,md,markdown,hugo"
 
-# TODO: Rename the builder environment variable to inform users about application you provide them
-# ENV BUILDER_VERSION 1.0
+# Copy the S2I scripts to /usr/libexec/s2i according to label above
+COPY ./s2i/bin/ /usr/local/s2i
 
-# TODO: Set labels used in OpenShift to describe the builder image
-#LABEL io.k8s.description="Platform for building xyz" \
-#      io.k8s.display-name="builder x.y.z" \
-#      io.openshift.expose-services="8080:http" \
-#      io.openshift.tags="builder,x.y.z,etc."
+RUN adduser -u 1001 -h /home/hugo -D -s /sbin/nologin default root && \
+    mkdir -p /home/hugo && \
+    chown -R 1001:0 /home/hugo && chmod -R g+rwX /home/hugo
 
-# TODO: Install required packages here:
-# RUN yum install -y ... && yum clean all -y
-RUN yum install -y rubygems && yum clean all -y
-RUN gem install asdf
+# Install required packages
+RUN apk add --no-cache git && \
+    apk add --no-cache hugo
 
-# TODO (optional): Copy the builder files into /opt/app-root
-# COPY ./<builder_folder>/ /opt/app-root/
+# Set working directory
+WORKDIR /home/hugo
 
-# TODO: Copy the S2I scripts to /usr/libexec/s2i, since openshift/base-centos7 image
-# sets io.openshift.s2i.scripts-url label that way, or update that label
-COPY ./s2i/bin/ /usr/libexec/s2i
+# Set the default port for applications built using this image
+EXPOSE 1313
 
-# TODO: Drop the root user and make the content of /opt/app-root owned by user 1001
-# RUN chown -R 1001:1001 /opt/app-root
-
-# This default user is created in the openshift/base-centos7 image
+# Use un-privileged user
 USER 1001
 
-# TODO: Set the default port for applications built using this image
-# EXPOSE 8080
-
-# TODO: Set the default CMD for the image
-# CMD ["/usr/libexec/s2i/usage"]
+# Set the default CMD for the image
+CMD ["/usr/local/s2i/usage"]
