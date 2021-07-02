@@ -21,10 +21,11 @@ if [ "$(ls /tmp/artifacts/ 2>/dev/null)" ]; then
   shopt -u dotglob
 fi
 
-echo "---> Installing application source..."
-cp -Rf /tmp/src/. /home/hugo
+echo "---> Moving application source..."
+mv /tmp/src /opt/hugo/
 
 echo "---> Building application from source..."
 # TODO: Add build steps for your application, eg npm install, bundle install, pip install, etc.
-cd /home/hugo
-hugo -D
+# cd /home/hugo
+# hugo -D
+# chmod -R go+rwx /home/hugo

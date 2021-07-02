@@ -7,4 +7,18 @@
 #	https://github.com/openshift/source-to-image/blob/master/docs/builder_image.md
 #
 
-exec hugo server --bind 0.0.0.0 -c /home/hugo/public
+cd /opt/hugo/src
+exec hugo server \
+  --bind 0.0.0.0 \
+  -d /tmp/hugo-data \
+  --cacheDir /tmp/hugo-cache \
+  --disableLiveReload=true \
+  --watch=false \
+  --verbose \
+  --log \
+  --debug \
+  --verboseLog \
+  --path-warnings \
+  --minify \
+  --print-mem \
+

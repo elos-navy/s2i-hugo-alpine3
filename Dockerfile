@@ -11,16 +11,23 @@ LABEL io.k8s.description="Hugo static site generator s2i builder image." \
 # Copy the S2I scripts to /usr/libexec/s2i according to label above
 COPY ./s2i/bin/ /usr/local/s2i
 
-RUN adduser -u 1001 -h /home/hugo -D -s /sbin/nologin default root && \
-    mkdir -p /home/hugo && \
-    chown -R 1001:0 /home/hugo && chmod -R g+rwX /home/hugo
+# RUN adduser -u 1001 -h /home/hugo -D -s /sbin/nologin default root && \
+RUN mkdir -p /opt/hugo && \
+    chown -R 1001:0 /opt/hugo && \
+    chmod -R og+rwx /opt/hugo && \
+    mkdir -p /tmp/hugo-cache && \
+    chown -R 1001:0 /tmp/hugo-cache && \
+    chmod g+rwx /tmp/hugo-cache && \
+    mkdir -p /tmp/hugo-data && \
+    chown -R 1001:0 /tmp/hugo-data && \
+    chmod g+rwx /tmp/hugo-data
 
 # Install required packages
 RUN apk add --no-cache git && \
     apk add --no-cache hugo
 
 # Set working directory
-WORKDIR /home/hugo
+WORKDIR /opt/hugo
 
 # Set the default port for applications built using this image
 EXPOSE 1313
