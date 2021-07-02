@@ -2,3 +2,19 @@ baseURL = "http://example.org/"
 languageCode = "en-us"
 title = "My New Hugo Site"
 theme = "ananke"
+[caches]
+  [caches.assets]
+    dir = ":cacheDir/_gen"
+    maxAge = -1
+  [caches.getcsv]
+    dir = ":cacheDir/:project"
+    maxAge = -1
+  [caches.getjson]
+    dir = ":cacheDir/:project"
+    maxAge = -1
+  [caches.images]
+    dir = ":cacheDir/_gen"
+    maxAge = -1
+  [caches.modules]
+    dir = ":cacheDir/modules"
+    maxAge = -1
