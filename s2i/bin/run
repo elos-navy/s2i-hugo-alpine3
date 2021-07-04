@@ -7,18 +7,29 @@
 #	https://github.com/openshift/source-to-image/blob/master/docs/builder_image.md
 #
 
-cd /opt/hugo/src
-exec hugo server \
-  --bind 0.0.0.0 \
-  -d /tmp/hugo-data \
-  --cacheDir /tmp/hugo-cache \
-  --disableLiveReload=true \
-  --watch=false \
-  --verbose \
-  --log \
-  --debug \
-  --verboseLog \
-  --path-warnings \
-  --minify \
-  --print-mem \
+if [ -z $HUGO_OPTIONS ]
+then
+    export HUGO_OPTIONS="
+    --source /opt/hugo/src \
+    --buildDrafts \
+    --buildExpired \
+    --buildFuture \
+    --appendPort=false
+    --bind 0.0.0.0 \
+    --destination /tmp/hugo-data \
+    --cacheDir /tmp/hugo-cache \
+    --disableLiveReload=true \
+    --watch=false \
+    --verbose \
+    --log \
+    --debug \
+    --verboseLog \
+    --path-warnings \
+    --minify \
+    --noTimes \
+    --print-mem"
+fi
+
+exec hugo server --baseURL=${HUGO_BASE_URL} ${HUGO_OPTIONS}
+  
 
