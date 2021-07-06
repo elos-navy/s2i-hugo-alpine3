@@ -17,10 +17,13 @@ RUN mkdir -p /opt/hugo && \
     chmod -R og+rwx /opt/hugo && \
     mkdir -p /tmp/hugo-cache && \
     chown -R 1001:0 /tmp/hugo-cache && \
-    chmod g+rwx /tmp/hugo-cache && \
+    chmod -R g+rwx /tmp/hugo-cache && \
     mkdir -p /tmp/hugo-data && \
     chown -R 1001:0 /tmp/hugo-data && \
-    chmod g+rwx /tmp/hugo-data
+    chmod -R g+rwx /tmp/hugo-data && \
+    mkdir -p /tmp/hugo-public && \
+    chown -R 1001:0 /tmp/hugo-public && \
+    chmod g+rwx /tmp/hugo-public
 
 # Install required packages
 RUN apk add --no-cache git && \

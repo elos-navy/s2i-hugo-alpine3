@@ -26,6 +26,29 @@ mv /tmp/src /opt/hugo/
 
 echo "---> Building application from source..."
 # TODO: Add build steps for your application, eg npm install, bundle install, pip install, etc.
-# cd /home/hugo
-# hugo -D
-# chmod -R go+rwx /home/hugo
+
+if [ -z $HUGO_DEPLOY_OPTIONS ]
+then
+    export HUGO_DEPLOY_OPTIONS="
+    --source /opt/hugo/src \
+    --buildDrafts \
+    --buildExpired \
+    --buildFuture \
+    --destination /tmp/hugo-public \
+    --ignoreCache \
+    --verbose \
+    --log \
+    --debug \
+    --verboseLog \
+    --path-warnings \
+    --minify \
+    --noTimes \
+    --print-mem"
+fi
+
+hugo --baseURL=${HUGO_BASE_URL} ${HUGO_DEPLOY_OPTIONS}
+# rm -rf /tmp/hugo-cache/*
+chmod -R og+rwx /tmp/hugo-cache
+# rm -rf /tmp/hugo_cache
+chmod -R og+rwx /tmp/hugo_cache
+chmod -R og+rwx /tmp/hugo-public

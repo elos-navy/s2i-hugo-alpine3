@@ -17,7 +17,7 @@ then
     --appendPort=false
     --bind 0.0.0.0 \
     --destination /tmp/hugo-data \
-    --cacheDir /tmp/hugo-cache \
+    --ignoreCache \
     --disableLiveReload=true \
     --watch=false \
     --verbose \
@@ -30,6 +30,6 @@ then
     --print-mem"
 fi
 
-exec hugo server --baseURL=${HUGO_BASE_URL} ${HUGO_OPTIONS}
+hugo server --baseURL=${HUGO_BASE_URL} ${HUGO_OPTIONS}
   
 
