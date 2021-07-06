@@ -56,3 +56,6 @@ This section, called 'Front Matter', is what tells Hugo about the content in thi
 `description`, and the `date` it was posted. In our example, we've added two custom bits of data too. The `categories` and
 `tags` sections are used in this example for indexing/grouping content. You will learn more about what that means by
 examining the code in this example and through reading the Hugo [documentation](http://gohugo.io/overview/introduction).
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbLTczMDc0NTIwXX0=
+-->
